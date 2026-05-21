@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="neo">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>什么时候休息</title>
+<style>
+/* ===== CSS Variables ===== */
+:root {
+  --transition-speed: 0.4s;
+  --body-bg: #0f1319;
+  --main-bg: #161A22;
+  --main-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 8px 32px rgba(0,0,0,0.4);
+  --card-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+  --card-border-color: transparent;
+  --weather-bg: rgba(255,213,79,0.07);
+  --weather-border: rgba(255,213,79,0.1);
+  --weather-text: #ffd54f;
+  --date-text: #90a4ae;
+  --hero-label: #66bb6a;
+  --hero-number: #00E676;
+  --sun-bg: rgba(229,115,115,0.07);
+  --sun-border: rgba(229,115,115,0.12);
+  --sun-label: #e57373;
+  --sun-number: #ef9a9a;
+  --hol-bg: rgba(77,182,172,0.07);
+  --hol-border: rgba(77,182,172,0.12);
+  --hol-label: #4db6ac;
+  --hol-number: #80cbc4;
+  --cal-bg: rgba(121,134,203,0.07);
+  --cal-border: rgba(121,134,203,0.12);
+  --cal-label: #7986cb;
+  --cal-number: #9fa8da;
+  --prog-bg: rgba(100,181,246,0.05);
+  --prog-border: rgba(100,181,246,0.1);
+  --prog-track: rgba(255,255,255,0.06);
+  --prog-fill-from: #42a5f5;
+  --prog-fill-to: #64b5f6;
+  --prog-glow: 0 0 8px rgba(66,165,245,0.3);
+  --prog-dot: #90caf9;
+  --prog-dot-glow: 0 0 10px rgba(144,202,249,0.6);
+  --prog-working-text: #90caf9;
+  --prog-hours-text: #78909c;
+  --prog-sub-text: #546e7a;
+  --settings-color: #546e7a;
+  --modal-bg: #1a1f2b;
+  --modal-overlay: rgba(0,0,0,0.6);
+  --modal-text: #b0bec5;
+  --modal-input-bg: rgba(255,255,255,0.05);
+  --modal-input-border: rgba(255,255,255,0.1);
+  --modal-btn-bg: rgba(100,181,246,0.15);
+  --modal-btn-text: #90caf9;
+  --text-primary: #e0e0e0;
+  --text-shadow: none;
+  --wallpaper-opacity: 0;
+  --backdrop: none;
+}
+
+/* Glassmorphism */
+[data-theme="glass"] {
+  --body-bg: #0a0d14;
+  --main-bg: rgba(28,33,42,0.35);
+  --main-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+  --card-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  --card-border-color: rgba(255,255,255,0.06);
+  --weather-bg: rgba(255,255,255,0.04);
+  --weather-border: rgba(255,255,255,0.08);
+  --weather-text: #ffe082;
+  --date-text: rgba(255,255,255,0.7);
+  --hero-label: rgba(102,187,106,0.9);
+  --hero-number: #00E676;
+  --sun-bg: rgba(255,255,255,0.04);
+  --sun-border: rgba(255,255,255,0.08);
+  --sun-label: rgba(229,115,115,0.9);
+  --sun-number: #ef9a9a;
+  --hol-bg: rgba(255,255,255,0.04);
+  --hol-border: rgba(255,255,255,0.08);
+  --hol-label: rgba(77,182,172,0.9);
+  --hol-number: #80cbc4;
+  --cal-bg: rgba(255,255,255,0.04);
+  --cal-border: rgba(255,255,255,0.08);
+  --cal-label: rgba(121,134,203,0.9);
+  --cal-number: #9fa8da;
+  --prog-bg: rgba(255,255,255,0.04);
+  --prog-border: rgba(255,255,255,0.08);
+  --prog-track: rgba(255,255,255,0.08);
+  --prog-fill-from: #64b5f6;
+  --prog-fill-to: #90caf9;
+  --prog-glow: 0 0 12px rgba(100,181,246,0.4);
+  --prog-dot: #bbdefb;
+  --prog-dot-glow: 0 0 14px rgba(187,222,251,0.6);
+  --prog-working-text: rgba(255,255,255,0.8);
+  --prog-hours-text: rgba(255,255,255,0.5);
+  --prog-sub-text: rgba(255,255,255,0.35);
+  --settings-color: rgba(255,255,255,0.5);
+  --modal-bg: rgba(20,25,35,0.9);
+  --modal-overlay: rgba(0,0,0,0.4);
+  --modal-text: rgba(255,255,255,0.8);
+  --modal-input-bg: rgba(255,255,255,0.06);
+  --modal-input-border: rgba(255,255,255,0.12);
+  --modal-btn-bg: rgba(100,181,246,0.2);
+  --modal-btn-text: #90caf9;
+  --text-primary: rgba(255,255,255,0.9);
+  --text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  --wallpaper-opacity: 1;
+  --backdrop: blur(20px) saturate(180%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--body-bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-speed) ease;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow: hidden;
+}
+
+.wallpaper {
+  position: fixed; inset: 0; z-index: 0;
+  opacity: var(--wallpaper-opacity);
+  transition: opacity var(--transition-speed) ease;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(100,140,200,0.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 75% 60%, rgba(180,100,140,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(80,120,180,0.15) 0%, transparent 40%),
+    linear-gradient(160deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #1a1a2e 100%);
+}
+
+.widget {
+  position: relative; z-index: 1;
+  width: 520px; max-width: 95vw;
+  background: var(--main-bg);
+  border-radius: 24px;
+  box-shadow: var(--main-shadow);
+  padding: 22px 26px;
+  transition: all var(--transition-speed) ease;
+  backdrop-filter: var(--backdrop);
+  -webkit-backdrop-filter: var(--backdrop);
+  border: 1px solid var(--card-border-color);
+}
+
+/* Top Row */
+.top-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+  -webkit-app-region: drag;
+}
+.top-row button, .top-row .weather-badge, .top-row .date-display {
+  -webkit-app-region: no-drag;
+}
+
+.weather-badge {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--weather-bg);
+  border: 1px solid var(--weather-border);
+  border-radius: 10px; padding: 6px 12px;
+  font-size: 13px; color: var(--weather-text);
+  transition: all var(--transition-speed) ease;
+  text-shadow: var(--text-shadow); white-space: nowrap;
+}
+.date-display {
+  font-size: 12px; color: var(--date-text);
+  text-shadow: var(--text-shadow);
+  text-align: center; flex: 1; margin: 0 10px;
+}
+.theme-toggle, .settings-btn {
+  background: var(--weather-bg);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 6px 10px;
+  font-size: 16px; cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  color: var(--settings-color);
+}
+.theme-toggle:hover, .settings-btn:hover {
+  opacity: 0.8; transform: scale(1.05);
+}
+.settings-btn { margin-left: 4px; }
+
+/* Hero */
+.hero { text-align: center; padding: 18px 0 12px; }
+.hero-label {
+  font-size: 11px; color: var(--hero-label);
+  letter-spacing: 2px; margin-bottom: 4px;
+  text-shadow: var(--text-shadow);
+}
+.hero-number {
+  font-size: 46px; font-weight: 700;
+  color: var(--hero-number);
+  letter-spacing: -1px; line-height: 1.1;
+  text-shadow: var(--text-shadow);
+}
+[data-theme="glass"] .hero-number {
+  filter: drop-shadow(0 0 12px rgba(0,230,118,0.3));
+}
+
+/* Cards Row */
+.cards-row { display: flex; gap: 10px; margin: 10px 0 14px; }
+.info-card {
+  flex: 1; border-radius: 14px; padding: 10px 8px;
+  text-align: center; cursor: pointer;
+  border: 1px solid; box-shadow: var(--card-shadow);
+  text-shadow: var(--text-shadow);
+  transition: all var(--transition-speed) ease;
+}
+[data-theme="glass"] .info-card {
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.info-card:hover { transform: translateY(-1px); }
+.card-sunday { background: var(--sun-bg); border-color: var(--sun-border); }
+.card-holiday { background: var(--hol-bg); border-color: var(--hol-border); }
+.card-calendar { background: var(--cal-bg); border-color: var(--cal-border); }
+.card-label { font-size: 10px; margin-bottom: 3px; }
+.card-sunday .card-label { color: var(--sun-label); }
+.card-holiday .card-label { color: var(--hol-label); }
+.card-calendar .card-label { color: var(--cal-label); }
+.card-value { font-size: 22px; font-weight: 600; }
+.card-sunday .card-value { color: var(--sun-number); }
+.card-holiday .card-value { color: var(--hol-number); font-size: 18px; }
+.card-calendar .card-value { color: var(--cal-number); font-size: 14px; }
+.card-unit { font-size: 11px; font-weight: 400; }
+
+/* Progress */
+.progress-section {
+  background: var(--prog-bg); border: 1px solid var(--prog-border);
+  border-radius: 14px; padding: 12px 14px;
+  transition: all var(--transition-speed) ease;
+  box-shadow: var(--card-shadow);
+}
+[data-theme="glass"] .progress-section {
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.progress-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.progress-status {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--prog-working-text);
+  text-shadow: var(--text-shadow);
+}
+.status-dot {
+  width: 7px; height: 7px; background: #00E676;
+  border-radius: 50%; box-shadow: 0 0 6px #00E676;
+}
+.progress-hours {
+  font-size: 11px; color: var(--prog-hours-text);
+  text-shadow: var(--text-shadow);
+}
+.progress-track {
+  height: 6px; background: var(--prog-track);
+  border-radius: 3px; overflow: visible; position: relative;
+}
+.progress-fill {
+  height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, var(--prog-fill-from), var(--prog-fill-to));
+  box-shadow: var(--prog-glow);
+  position: relative;
+  transition: width 1s ease, background var(--transition-speed) ease;
+}
+.progress-dot {
+  position: absolute; right: -6px; top: -3px;
+  width: 12px; height: 12px;
+  background: var(--prog-dot); border-radius: 50%;
+  box-shadow: var(--prog-dot-glow);
+}
+.progress-footer {
+  display: flex; justify-content: space-between; margin-top: 5px;
+  font-size: 10px; color: var(--prog-sub-text);
+  text-shadow: var(--text-shadow);
+}
+
+/* Modals */
+.modal-overlay {
+  position: fixed; inset: 0; background: var(--modal-overlay);
+  z-index: 100; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+.modal {
+  background: var(--modal-bg); border-radius: 18px; padding: 24px;
+  width: 380px; max-width: 90vw; max-height: 80vh; overflow-y: auto;
+  color: var(--modal-text);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+}
+.modal h3 {
+  font-size: 18px; font-weight: 600; margin-bottom: 18px;
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--text-primary);
+}
+.modal-close {
+  background: none; border: none; color: var(--modal-text);
+  font-size: 20px; cursor: pointer; padding: 4px 8px;
+  border-radius: 6px;
+}
+.modal-close:hover { background: rgba(255,255,255,0.08); }
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block; font-size: 12px; color: var(--modal-text);
+  margin-bottom: 6px; opacity: 0.8;
+}
+.form-group input {
+  width: 100%; padding: 10px 12px;
+  background: var(--modal-input-bg);
+  border: 1px solid var(--modal-input-border);
+  border-radius: 10px; color: var(--text-primary);
+  font-size: 15px; font-family: inherit; outline: none;
+}
+.form-group input:focus { border-color: rgba(100,181,246,0.4); }
+.btn {
+  padding: 8px 16px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer; font-size: 13px; font-family: inherit;
+  transition: all 0.2s ease;
+}
+.btn-primary { background: var(--modal-btn-bg); color: var(--modal-btn-text); }
+.btn-primary:hover { background: rgba(100,181,246,0.25); }
+.btn-danger {
+  background: rgba(229,115,115,0.12); color: #e57373;
+  padding: 2px 8px; font-size: 11px;
+}
+.btn-danger:hover { background: rgba(229,115,115,0.22); }
+.holiday-list { list-style: none; margin-bottom: 10px; }
+.holiday-list li {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px; background: var(--modal-input-bg);
+  border-radius: 8px; margin-bottom: 6px; font-size: 13px;
+}
+.add-holiday { display: flex; gap: 8px; margin-top: 10px; }
+.add-holiday input {
+  flex: 1; padding: 8px 10px;
+  background: var(--modal-input-bg);
+  border: 1px solid var(--modal-input-border);
+  border-radius: 8px; color: var(--text-primary);
+  font-size: 13px; font-family: inherit; outline: none;
+}
+
+/* Calendar */
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; margin-bottom: 10px; }
+.calendar-day-header { font-size: 11px; color: var(--prog-sub-text); padding: 6px 0; }
+.calendar-day {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; border-radius: 8px; cursor: pointer;
+  transition: all 0.15s ease; position: relative; color: var(--text-primary);
+}
+.calendar-day:hover { background: rgba(255,255,255,0.08); }
+.calendar-day.today { border: 1px solid rgba(100,181,246,0.5); }
+.calendar-day.holiday::after {
+  content: ''; position: absolute; bottom: 3px; left: 50%;
+  transform: translateX(-50%); width: 4px; height: 4px;
+  background: #e57373; border-radius: 50%;
+}
+.calendar-day.other-month { color: rgba(255,255,255,0.15); cursor: default; }
+.calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.calendar-nav button {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-primary); padding: 6px 12px; border-radius: 8px;
+  cursor: pointer; font-size: 14px;
+}
+.calendar-nav button:hover { background: rgba(255,255,255,0.12); }
+.calendar-month-label { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+.calendar-hint { font-size: 11px; color: var(--prog-sub-text); text-align: center; margin-top: 6px; }
+
+/* Responsive */
+@media (max-width: 560px) {
+  .widget { padding: 16px 14px; }
+  .hero-number { font-size: 36px; }
+  .cards-row { gap: 6px; }
+  .info-card { padding: 8px 6px; }
+  .card-value { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="wallpaper"></div>
+<div class="widget" id="widget">
+  <div class="top-row">
+    <div class="weather-badge">
+      <span id="weatherIcon">🌤</span>
+      <span id="weatherText">--°C ~ --°C</span>
+    </div>
+    <div class="date-display" id="dateDisplay"></div>
+    <button class="theme-toggle" id="themeToggle" title="切换主题">🌑</button>
+    <button class="settings-btn" id="settingsBtn" title="设置">⚙️</button>
+  </div>
+  <div class="hero">
+    <div class="hero-label">今日已赚</div>
+    <div class="hero-number" id="earnings">¥0.00</div>
+  </div>
+  <div class="cards-row">
+    <div class="info-card card-sunday">
+      <div class="card-label">📅 距周日</div>
+      <div class="card-value"><span id="sundayCount">-</span><span class="card-unit">天</span></div>
+    </div>
+    <div class="info-card card-holiday">
+      <div class="card-label">🗓 <span id="holidayName">节假日</span></div>
+      <div class="card-value"><span id="holidayCount">-</span><span class="card-unit">天</span></div>
+    </div>
+    <div class="info-card card-calendar" id="calendarCard">
+      <div class="card-label">📋 日历</div>
+      <div class="card-value" id="calendarMonth">--</div>
+    </div>
+  </div>
+  <div class="progress-section">
+    <div class="progress-header">
+      <div class="progress-status">
+        <span class="status-dot"></span>
+        <span id="progressStatusText">工作中</span>
+      </div>
+      <span class="progress-hours">9:00 - 18:30</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%">
+        <div class="progress-dot"></div>
+      </div>
+    </div>
+    <div class="progress-footer">
+      <span id="progressPercent">已过 0%</span>
+      <span id="progressRemain">剩余 9h 30m</span>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settingsOverlay">
+  <div class="modal">
+    <h3>设置 <button class="modal-close" id="settingsClose">✕</button></h3>
+    <div class="form-group">
+      <label>时薪（元/小时）</label>
+      <input type="number" id="hourlyRateInput" min="0" step="0.01" placeholder="请输入时薪">
+    </div>
+    <div class="form-group">
+      <label>节假日管理</label>
+      <ul class="holiday-list" id="holidayList"></ul>
+      <div class="add-holiday">
+        <input type="date" id="newHolidayDate">
+        <button class="btn btn-primary" id="addHolidayBtn">+ 添加</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="saveSettings" style="width:100%;margin-top:10px;">保存设置</button>
+  </div>
+</div>
+
+<!-- Calendar Modal -->
+<div class="modal-overlay" id="calendarOverlay">
+  <div class="modal">
+    <h3>日历 <button class="modal-close" id="calendarClose">✕</button></h3>
+    <div class="calendar-nav">
+      <button id="calPrev">◀</button>
+      <span class="calendar-month-label" id="calMonthLabel"></span>
+      <button id="calNext">▶</button>
+    </div>
+    <div class="calendar-grid" id="calGrid"></div>
+    <div class="calendar-hint">🟡 点击日期标记/取消节假日 · 红点 = 已标记</div>
+  </div>
+</div>
+
+<script>
+let hourlyRate = parseFloat(localStorage.getItem('hourlyRate')) || 0;
+let holidays = JSON.parse(localStorage.getItem('holidays') || 'null');
+let currentTheme = localStorage.getItem('theme') || 'neo';
+let calYear, calMonth;
+
+const DEFAULTS = [
+  {date:'2026-01-01',name:'元旦'},{date:'2026-05-01',name:'劳动节'},
+  {date:'2026-06-19',name:'端午节'},{date:'2026-10-01',name:'国庆节'},
+  {date:'2026-10-06',name:'中秋节'},
+];
+
+function initHolidays() {
+  if (!holidays) { holidays = [...DEFAULTS]; saveH(); }
+}
+function saveH() { localStorage.setItem('holidays', JSON.stringify(holidays)); }
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  document.getElementById('themeToggle').textContent = currentTheme === 'glass' ? '🫧' : '🌑';
+}
+function toggleTheme() {
+  currentTheme = currentTheme === 'glass' ? 'neo' : 'glass';
+  localStorage.setItem('theme', currentTheme);
+  applyTheme();
+}
+
+function getWork() {
+  const n = new Date();
+  const s = new Date(n); s.setHours(9,0,0,0);
+  const e = new Date(n); e.setHours(18,30,0,0);
+  if (n < s) return {w:0,t:570,r:570,st:'before'};
+  if (n > e) return {w:570,t:570,r:0,st:'after'};
+  const w = Math.floor((n - s) / 60000);
+  return {w,t:570,r:570-w,st:'working'};
+}
+
+function update() {
+  const n = new Date();
+  const {w,t,r,st} = getWork();
+  const pct = Math.min(100,Math.max(0,(w/t)*100));
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPercent').textContent = '已过 '+Math.round(pct)+'%';
+  const rh = Math.floor(r/60), rm = r%60;
+  document.getElementById('progressRemain').textContent =
+    st==='before'?'尚未开始':st==='after'?'已下班':`剩余 ${rh}h ${rm}m`;
+  document.getElementById('progressStatusText').textContent =
+    st==='before'?'未开始':st==='after'?'已下班':'工作中';
+
+  if (hourlyRate > 0 && st !== 'before') {
+    document.getElementById('earnings').textContent = '¥'+(hourlyRate/60*w).toFixed(2);
+  }
+
+  const wd = ['日','一','二','三','四','五','六'];
+  document.getElementById('dateDisplay').textContent =
+    `${n.getFullYear()}年${n.getMonth()+1}月${n.getDate()}日 周${wd[n.getDay()]}`;
+  document.getElementById('sundayCount').textContent = (7-n.getDay())%7;
+  document.getElementById('calendarMonth').textContent = (n.getMonth()+1)+'月';
+
+  // Next holiday
+  const today = new Date(n.getFullYear(),n.getMonth(),n.getDate());
+  let nh = null, md = Infinity;
+  for (const h of holidays) {
+    const hd = new Date(h.date+'T00:00:00');
+    if (hd >= today) { const d = Math.ceil((hd-today)/86400000); if (d<md) { md=d; nh=h; } }
+  }
+  if (nh) {
+    document.getElementById('holidayName').textContent = '距'+nh.name;
+    document.getElementById('holidayCount').textContent = md;
+  }
+}
+
+// Weather
+function weIcon(c) {
+  if (c<=1) return '☀️'; if (c===2) return '⛅'; if (c===3) return '☁️';
+  if (c<=48) return '🌫'; if (c<=67) return '🌧'; if (c<=77) return '❄️';
+  if (c<=86) return '❄️'; return '🌩';
+}
+async function fetchWeather() {
+  try {
+    if (!navigator.geolocation) { wFallback(); return; }
+    const pos = await new Promise((rs,rj) =>
+      navigator.geolocation.getCurrentPosition(rs,rj,{timeout:5000,maximumAge:3600000}));
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude.toFixed(2)}&longitude=${pos.coords.longitude.toFixed(2)}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto&forecast_days=1`;
+    const r = await fetch(url); const d = await r.json();
+    if (d.daily) {
+      const min=Math.round(d.daily.temperature_2m_min[0]), max=Math.round(d.daily.temperature_2m_max[0]), code=d.daily.weathercode[0];
+      document.getElementById('weatherIcon').textContent = weIcon(code);
+      document.getElementById('weatherText').textContent = `${min}°C ~ ${max}°C`;
+      localStorage.setItem('wc', JSON.stringify({min,max,code,ts:Date.now()}));
+      return;
+    }
+  } catch(e) {}
+  wFallback();
+}
+function wFallback() {
+  const c = localStorage.getItem('wc');
+  if (c) { const w=JSON.parse(c); if(Date.now()-w.ts<86400000) {
+    document.getElementById('weatherIcon').textContent=weIcon(w.code);
+    document.getElementById('weatherText').textContent=`${w.min}°C ~ ${w.max}°C`; return;
+  }}
+}
+
+// Settings
+function openSettings() {
+  document.getElementById('hourlyRateInput').value = hourlyRate||'';
+  const list = document.getElementById('holidayList');
+  list.innerHTML = holidays.map((h,i) =>
+    `<li><span>📅 ${h.date} ${h.name}</span><button class="btn btn-danger" onclick="rmH(${i})">✕</button></li>`).join('');
+  document.getElementById('settingsOverlay').classList.add('active');
+}
+function closeSettings() { document.getElementById('settingsOverlay').classList.remove('active'); }
+function rmH(i) { holidays.splice(i,1); saveH(); openSettings(); update(); }
+function addH() {
+  const d = document.getElementById('newHolidayDate').value; if(!d) return;
+  const n = prompt('节假日名称：','自定义节假日'); if(!n) return;
+  holidays.push({date:d,name:n}); holidays.sort((a,b)=>a.date.localeCompare(b.date));
+  saveH(); openSettings(); document.getElementById('newHolidayDate').value=''; update();
+}
+function saveSettings() {
+  const r = parseFloat(document.getElementById('hourlyRateInput').value);
+  if (!isNaN(r) && r>=0) { hourlyRate=r; localStorage.setItem('hourlyRate',r); }
+  update(); closeSettings();
+}
+
+// Calendar
+function openCalendar() {
+  const n=new Date(); calYear=n.getFullYear(); calMonth=n.getMonth();
+  renderCal(); document.getElementById('calendarOverlay').classList.add('active');
+}
+function closeCalendar() { document.getElementById('calendarOverlay').classList.remove('active'); update(); }
+function renderCal() {
+  document.getElementById('calMonthLabel').textContent = `${calYear}年 ${calMonth+1}月`;
+  const g=document.getElementById('calGrid');
+  g.innerHTML = ['日','一','二','三','四','五','六'].map(h=>`<div class="calendar-day-header">${h}</div>`).join('');
+  const fd=new Date(calYear,calMonth,1).getDay();
+  const dim=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date();
+  const ts=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  const hds=new Set(holidays.map(h=>h.date));
+  const pd=new Date(calYear,calMonth,0).getDate();
+  for(let i=fd-1;i>=0;i--) g.innerHTML+=`<div class="calendar-day other-month">${pd-i}</div>`;
+  for(let d=1;d<=dim;d++) {
+    const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cls=['calendar-day'];
+    if(ds===ts) cls.push('today');
+    if(hds.has(ds)) cls.push('holiday');
+    g.innerHTML+=`<div class="${cls.join(' ')}" onclick="toggleDate('${ds}')">${d}</div>`;
+  }
+}
+function toggleDate(ds) {
+  const ei=holidays.findIndex(h=>h.date===ds);
+  if(ei>=0) { holidays.splice(ei,1); }
+  else { const n=prompt('节假日名称：','自定义节假日'); if(!n) return; holidays.push({date:ds,name:n}); holidays.sort((a,b)=>a.date.localeCompare(b.date)); }
+  saveH(); renderCal(); update();
+}
+function calPrev() { calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCal(); }
+function calNext() { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCal(); }
+
+// Init
+function init() {
+  initHolidays(); applyTheme(); update(); fetchWeather();
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+  document.getElementById('settingsBtn').addEventListener('click', openSettings);
+  document.getElementById('settingsClose').addEventListener('click', closeSettings);
+  document.getElementById('settingsOverlay').addEventListener('click', function(e){if(e.target===this)closeSettings();});
+  document.getElementById('saveSettings').addEventListener('click', saveSettings);
+  document.getElementById('addHolidayBtn').addEventListener('click', addH);
+  document.getElementById('calendarCard').addEventListener('click', openCalendar);
+  document.getElementById('calendarClose').addEventListener('click', closeCalendar);
+  document.getElementById('calendarOverlay').addEventListener('click', function(e){if(e.target===this)closeCalendar();});
+  document.getElementById('calPrev').addEventListener('click', calPrev);
+  document.getElementById('calNext').addEventListener('click', calNext);
+  setInterval(update, 10000);
+  setInterval(fetchWeather, 3600000);
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
