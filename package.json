@@ -1,6 +1,8 @@
 {
   "name": "zhuomianxiaozujian",
   "version": "1.0.0",
+  "description": "桌面小组件 - 什么时候休息",
+  "author": "yiyiZheng-zzx",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
