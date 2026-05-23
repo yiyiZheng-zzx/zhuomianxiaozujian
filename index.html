@@ -8,32 +8,33 @@
 /* ===== CSS Variables ===== */
 :root {
   --transition-speed: 0.4s;
-  --body-bg: #0f1319;
-  --main-bg: #161A22;
-  --main-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 8px 32px rgba(0,0,0,0.4);
-  --card-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
-  --card-border-color: transparent;
-  --weather-bg: rgba(255,213,79,0.07);
-  --weather-border: rgba(255,213,79,0.1);
+  --body-bg: transparent;
+  --main-bg: transparent;
+  --main-shadow: none;
+  --card-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  --card-border-color: rgba(255,255,255,0.06);
+  --card-backdrop: blur(16px) saturate(160%);
+  --weather-bg: rgba(28,33,42,0.5);
+  --weather-border: rgba(255,255,255,0.05);
   --weather-text: #ffd54f;
   --date-text: #90a4ae;
   --hero-label: #66bb6a;
   --hero-number: #00E676;
-  --sun-bg: rgba(229,115,115,0.07);
-  --sun-border: rgba(229,115,115,0.12);
+  --sun-bg: rgba(28,33,42,0.5);
+  --sun-border: rgba(255,255,255,0.05);
   --sun-label: #e57373;
   --sun-number: #ef9a9a;
-  --hol-bg: rgba(77,182,172,0.07);
-  --hol-border: rgba(77,182,172,0.12);
+  --hol-bg: rgba(28,33,42,0.5);
+  --hol-border: rgba(255,255,255,0.05);
   --hol-label: #4db6ac;
   --hol-number: #80cbc4;
-  --cal-bg: rgba(121,134,203,0.07);
-  --cal-border: rgba(121,134,203,0.12);
+  --cal-bg: rgba(28,33,42,0.5);
+  --cal-border: rgba(255,255,255,0.05);
   --cal-label: #7986cb;
   --cal-number: #9fa8da;
-  --prog-bg: rgba(100,181,246,0.05);
-  --prog-border: rgba(100,181,246,0.1);
-  --prog-track: rgba(255,255,255,0.06);
+  --prog-bg: rgba(28,33,42,0.5);
+  --prog-border: rgba(255,255,255,0.05);
+  --prog-track: rgba(255,255,255,0.08);
   --prog-fill-from: #42a5f5;
   --prog-fill-to: #64b5f6;
   --prog-glow: 0 0 8px rgba(66,165,245,0.3);
@@ -54,36 +55,38 @@
   --text-shadow: none;
   --wallpaper-opacity: 0;
   --backdrop: none;
+  --widget-scale: 1;
 }
 
-/* Glassmorphism */
+/* Glassmorphism = lighter tint */
 [data-theme="glass"] {
-  --body-bg: #0a0d14;
-  --main-bg: rgba(28,33,42,0.35);
-  --main-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
-  --card-shadow: 0 4px 16px rgba(0,0,0,0.15);
-  --card-border-color: rgba(255,255,255,0.06);
-  --weather-bg: rgba(255,255,255,0.04);
-  --weather-border: rgba(255,255,255,0.08);
+  --body-bg: transparent;
+  --main-bg: transparent;
+  --main-shadow: none;
+  --card-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  --card-border-color: rgba(255,255,255,0.1);
+  --card-backdrop: blur(24px) saturate(180%);
+  --weather-bg: rgba(255,255,255,0.06);
+  --weather-border: rgba(255,255,255,0.12);
   --weather-text: #ffe082;
-  --date-text: rgba(255,255,255,0.7);
+  --date-text: rgba(255,255,255,0.75);
   --hero-label: rgba(102,187,106,0.9);
   --hero-number: #00E676;
-  --sun-bg: rgba(255,255,255,0.04);
-  --sun-border: rgba(255,255,255,0.08);
+  --sun-bg: rgba(255,255,255,0.05);
+  --sun-border: rgba(255,255,255,0.1);
   --sun-label: rgba(229,115,115,0.9);
   --sun-number: #ef9a9a;
-  --hol-bg: rgba(255,255,255,0.04);
-  --hol-border: rgba(255,255,255,0.08);
+  --hol-bg: rgba(255,255,255,0.05);
+  --hol-border: rgba(255,255,255,0.1);
   --hol-label: rgba(77,182,172,0.9);
   --hol-number: #80cbc4;
-  --cal-bg: rgba(255,255,255,0.04);
-  --cal-border: rgba(255,255,255,0.08);
+  --cal-bg: rgba(255,255,255,0.05);
+  --cal-border: rgba(255,255,255,0.1);
   --cal-label: rgba(121,134,203,0.9);
   --cal-number: #9fa8da;
-  --prog-bg: rgba(255,255,255,0.04);
-  --prog-border: rgba(255,255,255,0.08);
-  --prog-track: rgba(255,255,255,0.08);
+  --prog-bg: rgba(255,255,255,0.05);
+  --prog-border: rgba(255,255,255,0.1);
+  --prog-track: rgba(255,255,255,0.12);
   --prog-fill-from: #64b5f6;
   --prog-fill-to: #90caf9;
   --prog-glow: 0 0 12px rgba(100,181,246,0.4);
@@ -92,25 +95,26 @@
   --prog-working-text: rgba(255,255,255,0.8);
   --prog-hours-text: rgba(255,255,255,0.5);
   --prog-sub-text: rgba(255,255,255,0.35);
-  --settings-color: rgba(255,255,255,0.5);
-  --modal-bg: rgba(20,25,35,0.9);
-  --modal-overlay: rgba(0,0,0,0.4);
-  --modal-text: rgba(255,255,255,0.8);
-  --modal-input-bg: rgba(255,255,255,0.06);
-  --modal-input-border: rgba(255,255,255,0.12);
-  --modal-btn-bg: rgba(100,181,246,0.2);
+  --settings-color: rgba(255,255,255,0.6);
+  --modal-bg: rgba(15,20,30,0.95);
+  --modal-overlay: rgba(0,0,0,0.5);
+  --modal-text: rgba(255,255,255,0.85);
+  --modal-input-bg: rgba(255,255,255,0.08);
+  --modal-input-border: rgba(255,255,255,0.15);
+  --modal-btn-bg: rgba(100,181,246,0.25);
   --modal-btn-text: #90caf9;
   --text-primary: rgba(255,255,255,0.9);
-  --text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-  --wallpaper-opacity: 1;
-  --backdrop: blur(20px) saturate(180%);
+  --text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  --wallpaper-opacity: 0;
+  --backdrop: blur(16px) saturate(160%);
+  --widget-scale: 1;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--body-bg);
+  background: transparent;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -121,28 +125,21 @@ body {
   overflow: hidden;
 }
 
-.wallpaper {
-  position: fixed; inset: 0; z-index: 0;
-  opacity: var(--wallpaper-opacity);
-  transition: opacity var(--transition-speed) ease;
-  background:
-    radial-gradient(ellipse at 20% 30%, rgba(100,140,200,0.25) 0%, transparent 50%),
-    radial-gradient(ellipse at 75% 60%, rgba(180,100,140,0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(80,120,180,0.15) 0%, transparent 40%),
-    linear-gradient(160deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #1a1a2e 100%);
-}
+.wallpaper { display: none; }
 
 .widget {
   position: relative; z-index: 1;
   width: 520px; max-width: 95vw;
-  background: var(--main-bg);
-  border-radius: 24px;
-  box-shadow: var(--main-shadow);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
   padding: 22px 26px;
   transition: all var(--transition-speed) ease;
-  backdrop-filter: var(--backdrop);
-  -webkit-backdrop-filter: var(--backdrop);
-  border: 1px solid var(--card-border-color);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  transform: scale(var(--widget-scale));
+  transform-origin: center top;
 }
 
 /* Top Row */
@@ -163,27 +160,64 @@ body {
   font-size: 13px; color: var(--weather-text);
   transition: all var(--transition-speed) ease;
   text-shadow: var(--text-shadow); white-space: nowrap;
+  backdrop-filter: var(--backdrop);
+  -webkit-backdrop-filter: var(--backdrop);
+  box-shadow: var(--card-shadow);
 }
 .date-display {
   font-size: 12px; color: var(--date-text);
   text-shadow: var(--text-shadow);
   text-align: center; flex: 1; margin: 0 10px;
+  background: var(--weather-bg);
+  border: 1px solid var(--weather-border);
+  border-radius: 10px; padding: 6px 12px;
+  backdrop-filter: var(--backdrop);
+  -webkit-backdrop-filter: var(--backdrop);
+  box-shadow: var(--card-shadow);
 }
 .theme-toggle, .settings-btn {
   background: var(--weather-bg);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--weather-border);
   border-radius: 10px; padding: 6px 10px;
   font-size: 16px; cursor: pointer;
   transition: all var(--transition-speed) ease;
   color: var(--settings-color);
+  backdrop-filter: var(--backdrop);
+  -webkit-backdrop-filter: var(--backdrop);
+  box-shadow: var(--card-shadow);
+  text-shadow: var(--text-shadow);
 }
 .theme-toggle:hover, .settings-btn:hover {
   opacity: 0.8; transform: scale(1.05);
 }
 .settings-btn { margin-left: 4px; }
+.win-min-btn, .win-close-btn {
+  background: var(--weather-bg);
+  border: 1px solid var(--weather-border);
+  border-radius: 8px; padding: 4px 8px;
+  font-size: 14px; cursor: pointer; line-height: 1;
+  color: var(--settings-color); margin-left: 4px;
+  font-family: inherit;
+  transition: all 0.15s ease;
+  backdrop-filter: var(--backdrop);
+  -webkit-backdrop-filter: var(--backdrop);
+  box-shadow: var(--card-shadow);
+  text-shadow: var(--text-shadow);
+}
+.win-min-btn:hover { background: rgba(255,255,255,0.1); }
+.win-close-btn:hover { background: rgba(229,115,115,0.3); color: #e57373; }
 
 /* Hero */
-.hero { text-align: center; padding: 18px 0 12px; }
+.hero {
+  text-align: center; padding: 18px 0 12px;
+  background: var(--weather-bg);
+  border: 1px solid var(--weather-border);
+  border-radius: 18px;
+  margin-bottom: 12px;
+  backdrop-filter: var(--backdrop);
+  -webkit-backdrop-filter: var(--backdrop);
+  box-shadow: var(--card-shadow);
+}
 .hero-label {
   font-size: 11px; color: var(--hero-label);
   letter-spacing: 2px; margin-bottom: 4px;
@@ -207,9 +241,8 @@ body {
   border: 1px solid; box-shadow: var(--card-shadow);
   text-shadow: var(--text-shadow);
   transition: all var(--transition-speed) ease;
-}
-[data-theme="glass"] .info-card {
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: var(--backdrop);
+  -webkit-backdrop-filter: var(--backdrop);
 }
 .info-card:hover { transform: translateY(-1px); }
 .card-sunday { background: var(--sun-bg); border-color: var(--sun-border); }
@@ -231,9 +264,8 @@ body {
   border-radius: 14px; padding: 12px 14px;
   transition: all var(--transition-speed) ease;
   box-shadow: var(--card-shadow);
-}
-[data-theme="glass"] .progress-section {
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: var(--backdrop);
+  -webkit-backdrop-filter: var(--backdrop);
 }
 .progress-header {
   display: flex; justify-content: space-between; align-items: center;
@@ -390,6 +422,8 @@ body {
     <div class="date-display" id="dateDisplay"></div>
     <button class="theme-toggle" id="themeToggle" title="切换主题">🌑</button>
     <button class="settings-btn" id="settingsBtn" title="设置">⚙️</button>
+    <button class="win-min-btn" id="minBtn" title="最小化" style="display:none">─</button>
+    <button class="win-close-btn" id="closeBtn" title="隐藏到托盘" style="display:none">✕</button>
   </div>
   <div class="hero">
     <div class="hero-label">今日已赚</div>
@@ -438,6 +472,11 @@ body {
       <input type="number" id="hourlyRateInput" min="0" step="0.01" placeholder="请输入时薪">
     </div>
     <div class="form-group">
+      <label>界面缩放: <span id="scaleValue">100</span>%</label>
+      <input type="range" id="scaleSlider" min="50" max="150" value="100" step="5"
+        style="width:100%;accent-color:#00E676;">
+    </div>
+    <div class="form-group">
       <label>节假日管理</label>
       <ul class="holiday-list" id="holidayList"></ul>
       <div class="add-holiday">
@@ -467,7 +506,14 @@ body {
 let hourlyRate = parseFloat(localStorage.getItem('hourlyRate')) || 0;
 let holidays = JSON.parse(localStorage.getItem('holidays') || 'null');
 let currentTheme = localStorage.getItem('theme') || 'neo';
+let scale = parseInt(localStorage.getItem('scale')) || 100;
 let calYear, calMonth;
+
+function applyScale() {
+  document.documentElement.style.setProperty('--widget-scale', scale / 100);
+  const sv = document.getElementById('scaleValue');
+  if (sv) sv.textContent = scale;
+}
 
 const DEFAULTS = [
   {date:'2026-01-01',name:'元旦'},{date:'2026-05-01',name:'劳动节'},
@@ -568,6 +614,8 @@ function wFallback() {
 // Settings
 function openSettings() {
   document.getElementById('hourlyRateInput').value = hourlyRate||'';
+  document.getElementById('scaleSlider').value = scale;
+  document.getElementById('scaleValue').textContent = scale;
   const list = document.getElementById('holidayList');
   list.innerHTML = holidays.map((h,i) =>
     `<li><span>📅 ${h.date} ${h.name}</span><button class="btn btn-danger" onclick="rmH(${i})">✕</button></li>`).join('');
@@ -584,6 +632,9 @@ function addH() {
 function saveSettings() {
   const r = parseFloat(document.getElementById('hourlyRateInput').value);
   if (!isNaN(r) && r>=0) { hourlyRate=r; localStorage.setItem('hourlyRate',r); }
+  scale = parseInt(document.getElementById('scaleSlider').value);
+  localStorage.setItem('scale', scale);
+  applyScale();
   update(); closeSettings();
 }
 
@@ -623,7 +674,12 @@ function calNext() { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCa
 
 // Init
 function init() {
-  initHolidays(); applyTheme(); update(); fetchWeather();
+  initHolidays(); applyTheme(); applyScale(); update(); fetchWeather();
+  document.getElementById('scaleSlider').addEventListener('input', function() {
+    scale = parseInt(this.value);
+    document.getElementById('scaleValue').textContent = scale;
+    document.documentElement.style.setProperty('--widget-scale', scale / 100);
+  });
   document.getElementById('themeToggle').addEventListener('click', toggleTheme);
   document.getElementById('settingsBtn').addEventListener('click', openSettings);
   document.getElementById('settingsClose').addEventListener('click', closeSettings);
@@ -635,6 +691,14 @@ function init() {
   document.getElementById('calendarOverlay').addEventListener('click', function(e){if(e.target===this)closeCalendar();});
   document.getElementById('calPrev').addEventListener('click', calPrev);
   document.getElementById('calNext').addEventListener('click', calNext);
+  // Electron window controls
+  if (window.electronAPI?.isElectron) {
+    document.getElementById('minBtn').style.display = '';
+    document.getElementById('closeBtn').style.display = '';
+    document.getElementById('minBtn').addEventListener('click', () => window.electronAPI.minimize());
+    document.getElementById('closeBtn').addEventListener('click', () => window.electronAPI.hide());
+  }
+
   setInterval(update, 10000);
   setInterval(fetchWeather, 3600000);
 }
